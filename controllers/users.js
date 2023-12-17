@@ -3,18 +3,18 @@ const prisma = new PrismaClient();
 
 
 const createUsers = async (req, res) => {
-    try {
-      const { name, email ,role} = req.body;
+  try {
+     const { name, email ,role} = req.body;
   
-      if (!name || !email || !role) {
+   if (!name || !email || !role) {
         return res.status(400).json({ error: 'Add name and email' });
       }
   
-      const user = await prisma.users.create({
-        data: {
-          name,
-          email,
-          role
+    const user = await prisma.users.create({
+      data: {
+        name,
+        email,
+        role
         },
       });
   
@@ -28,20 +28,20 @@ const createUsers = async (req, res) => {
 
   const deleteUsers = async (req, res) => {
     try {  
-      const { name } = req.params; 
+  const { name } = req.params; 
   
-      const users = await prisma.users.findMany(); 
+  const users = await prisma.users.findMany(); 
   
      
-      const userToDelete = users.find((user) => user.name === name);
+    const userToDelete = users.find((user) => user.name === name);
   
-      if (!userToDelete) {
+    if (!userToDelete) {
         return res.status(404).json({ error: 'User not found' });
       }
   
       
-      const deletedUser = await prisma.users.delete({
-        where: {
+    const deletedUser = await prisma.users.delete({
+      where: {
           id: userToDelete.id, 
         },
       });
@@ -49,7 +49,7 @@ const createUsers = async (req, res) => {
       res.status(200).json(deletedUser);
     } catch (error) {
       console.error('Error deleting user by name:', error);
-      res.status(500).json({ error: 'Failed to delete user by name' });
+      res.status(500).json({ error: 'Deshtoi me fshi user by name' });
     }
   };
 
@@ -103,7 +103,7 @@ const assignTask = async (req, res) => {
       return res.status(404).json({ error: 'Task not found' });
     }
 
-    const updatedTask = await prisma.task.update({
+    const updatedTask = await prisma.tasks.update({
       where: {
         id: task.id,
       },
@@ -223,7 +223,7 @@ const getTasksByUsersName = async (req, res) => {
     const { name } = req.params;
 
     if (!name) {
-      return res.status(400).json({ error: 'Please provide a userName' });
+      return res.status(400).json({ error: 'Shkruaje nje emer' });
     }
 
     const user = await prisma.users.findFirst({
@@ -243,13 +243,13 @@ const getTasksByUsersName = async (req, res) => {
     });
 
     if (!tasksByUser || tasksByUser.length === 0) {
-      return res.status(404).json({ error: 'No tasks found for the user' });
+      return res.status(404).json({ error: 'Ska taska per userin' });
     }
 
     res.status(200).json(tasksByUser);
   } catch (error) {
-    console.error('Error fetching tasks by user name:', error);
-    res.status(500).json({ error: 'Failed to fetch tasks by user name' });
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Deshtoi marrja taskave nga emri' });
   }
 };
 
@@ -262,7 +262,7 @@ const updateTaskStatus = async (req, res) => {
     const { status } = req.body;
 
     if (!taskId || !status) {
-      return res.status(400).json({ error: 'Please provide taskId and status' });
+      return res.status(400).json({ error: 'Shkruaje taskId dhe statusin' });
     }
 
     const updatedTask = await prisma.tasks.update({
@@ -276,8 +276,8 @@ const updateTaskStatus = async (req, res) => {
 
     res.status(200).json(updatedTask);
   } catch (error) {
-    console.error('Error updating task status:', error);
-    res.status(500).json({ error: 'Failed to update task status' });
+    console.error('Error updating tasken:', error);
+    res.status(500).json({ error: 'Deshtoj updatimi taskes' });
   }
 };
 
@@ -288,7 +288,7 @@ const getTasksByStatus = async (req, res) => {
     const { status } = req.params;
 
     if (!status) {
-      return res.status(400).json({ error: 'Please provide a status' });
+      return res.status(400).json({ error: 'Shkruje 1 status' });
     }
 
     const tasksByStatus = await prisma.task.findMany({
@@ -298,13 +298,13 @@ const getTasksByStatus = async (req, res) => {
     });
 
     if (!tasksByStatus || tasksByStatus.length === 0) {
-      return res.status(404).json({ error: 'No tasks found with the provided status' });
+      return res.status(404).json({ error: 'Ska taska me ket status' });
     }
 
     res.status(200).json(tasksByStatus);
   } catch (error) {
-    console.error('Error fetching tasks by status:', error);
-    res.status(500).json({ error: 'Failed to fetch tasks by status' });
+    console.error('Error taskave prej statusit:', error);
+    res.status(500).json({ error: ' Deshtoj apet' });
   }
 };
 
